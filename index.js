@@ -4,7 +4,7 @@ const { walk } = require("estree-walker");
 const jsTokens = require("js-tokens");
 
 function generateName(pkg) {
-  return `__çjs_${pkg.replaceAll(/[^$a-zA-Z0-9]/g, "")}__`;
+  return `__çjs_${pkg.replace(/[^$a-zA-Z0-9]/g, "")}__`;
 }
 
 function guessType(code) {
