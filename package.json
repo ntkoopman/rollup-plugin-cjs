@@ -1,7 +1,7 @@
 {
   "name": "rollup-plugin-cjs",
-  "version": "0.0.1",
-  "description": "Import CommonJS files",
+  "version": "1.0.0",
+  "description": "Converts CommonJS files to ES modules",
   "main": "./index.js",
   "exports": {
     ".": "./index.js"

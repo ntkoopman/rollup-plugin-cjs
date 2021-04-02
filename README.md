@@ -15,7 +15,7 @@ import cjs from "rollup-plugin-cjs";
 export default {
   input: "src/index.js",
   output: {
-    dir: "output"
+    dir: "output",
   },
   plugins: [cjs()],
 };
