@@ -30,13 +30,13 @@ function virtual(options) {
   };
 }
 
-it("esm can load esm", async () => {
+it(`import from '.esm'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `import lib from "./lib"; output(lib);`,
-        "./lib": `export default "default"`,
+        "entry.js": `import lib from ".esm"; output(lib);`,
+        ".esm": `export default "default"`,
       }),
       cjs(),
     ],
@@ -50,13 +50,13 @@ it("esm can load esm", async () => {
   `);
 });
 
-it("esm can load cjs", async () => {
+it(`import from '.cjs'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `import lib, {named} from "./lib"; output({lib, named});`,
-        "./lib": `module.exports.default = "default"; module.exports.named = "named";`,
+        "entry.js": `import lib, {named} from ".cjs"; output({lib, named});`,
+        ".cjs": `module.exports.default = "default"; module.exports.named = "named";`,
       }),
       cjs(),
     ],
@@ -81,13 +81,13 @@ it("esm can load cjs", async () => {
   `);
 });
 
-it("esm can load __esModule", async () => {
+it(`import from '.esModule'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `import lib, { named } from "./lib"; output({ lib, named });`,
-        "./lib": `
+        "entry.js": `import lib, { named } from ".esModule"; output({ lib, named });`,
+        ".esModule": `
           module.exports = (function () {
             let e = {};
             Object.defineProperty(e, "__esModule", { value: !0 });
@@ -126,13 +126,13 @@ it("esm can load __esModule", async () => {
   `);
 });
 
-it("cjs can load esm", async () => {
+it(`require('.esm')`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `const lib = require("./lib"); output(lib);`,
-        "./lib": `export default "default"`,
+        "entry.js": `const lib = require(".esm"); output(lib);`,
+        ".esm": `export default "default"`,
       }),
       cjs(),
     ],
@@ -145,26 +145,26 @@ it("cjs can load esm", async () => {
       return module.__çjs$exports__ || module;
     }
 
-    var lib$1 = "default";
+    var _esm = "default";
 
-    var __çjs___lib__ = /*#__PURE__*/ Object.freeze({
+    var __çjs__esm__ = /*#__PURE__*/ Object.freeze({
       __proto__: null,
-      default: lib$1,
+      default: _esm,
     });
 
-    const lib = /*#__PURE__*/ require(__çjs___lib__);
+    const lib = /*#__PURE__*/ require(__çjs__esm__);
     output(lib);
 
   `);
 });
 
-it("cjs can load cjs", async () => {
+it(`require('.cjs')`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `const lib = require("lib"); output( lib );`,
-        lib: `exports.default = "default"`,
+        "entry.js": `const lib = require(".cjs"); output( lib );`,
+        ".cjs": `exports.default = "default"`,
       }),
       cjs(),
     ],
@@ -181,34 +181,34 @@ it("cjs can load cjs", async () => {
     let module = { exports: {} };
     let exports = module.exports;
     exports.default = "default";
-    var lib$1 = /*#__PURE__*/ defaultExport(module.exports);
+    var _cjs = /*#__PURE__*/ defaultExport(module.exports);
     const __çjs$synthetic__ = module.exports;
     const __çjs$exports__ = module.exports;
 
-    var __çjs_lib__ = /*#__PURE__*/ Object.freeze(
+    var __çjs__cjs__ = /*#__PURE__*/ Object.freeze(
       /*#__PURE__*/ Object.assign(
         /*#__PURE__*/ Object.create(null),
         __çjs$synthetic__,
         {
-          default: lib$1,
+          default: _cjs,
           __çjs$exports__: __çjs$exports__,
         }
       )
     );
 
-    const lib = /*#__PURE__*/ require(__çjs_lib__);
+    const lib = /*#__PURE__*/ require(__çjs__cjs__);
     output(lib);
 
   `);
 });
 
-it("cjs can load __esModule", async () => {
+it(`require('.esModule')`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
       virtual({
-        "entry.js": `output(require("./lib"));`,
-        "./lib": `module.exports.__esModule = true; module.exports.default = "default"; module.exports.named = "named";`,
+        "entry.js": `output(require(".esModule"));`,
+        ".esModule": `module.exports.__esModule = true; module.exports.default = "default"; module.exports.named = "named";`,
       }),
       cjs(),
     ],
@@ -230,27 +230,27 @@ it("cjs can load __esModule", async () => {
     module.exports.__esModule = true;
     module.exports.default = "default";
     module.exports.named = "named";
-    var lib = /*#__PURE__*/ defaultExport(module.exports);
+    var _esModule = /*#__PURE__*/ defaultExport(module.exports);
     const __çjs$synthetic__ = module.exports;
     const __çjs$exports__ = module.exports;
 
-    var __çjs___lib__ = /*#__PURE__*/ Object.freeze(
+    var __çjs__esModule__ = /*#__PURE__*/ Object.freeze(
       /*#__PURE__*/ Object.assign(
         /*#__PURE__*/ Object.create(null),
         __çjs$synthetic__,
         {
-          default: lib,
+          default: _esModule,
           __çjs$exports__: __çjs$exports__,
         }
       )
     );
 
-    output(/*#__PURE__*/ require(__çjs___lib__));
+    output(/*#__PURE__*/ require(__çjs__esModule__));
 
   `);
 });
 
-it("import * from '.cjs'", async () => {
+it(`import * from '.cjs'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
@@ -293,7 +293,7 @@ it("import * from '.cjs'", async () => {
   `);
 });
 
-it("import * from '.esm'", async () => {
+it(`import * from '.esm'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [
@@ -323,7 +323,7 @@ it("import * from '.esm'", async () => {
   `);
 });
 
-it("import * from '.esModule'", async () => {
+it(`import * from '.esModule'`, async () => {
   let chunk = await parse({
     input: "entry.js",
     plugins: [

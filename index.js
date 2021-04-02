@@ -11,11 +11,11 @@ module.exports = function cjs(options = {}) {
   let filter = createFilter(config.include, config.exclude);
   return {
     resolveId(source) {
-      if (source === "rollup-plugin-cjs-compat/helper") return source;
+      if (source === "rollup-plugin-cjs/helper") return source;
     },
 
     load(source) {
-      if (source === "rollup-plugin-cjs-compat/helper") {
+      if (source === "rollup-plugin-cjs/helper") {
         return `
           export function require(module) { return module.__çjs$exports__ || module; }
           export function defaultExport(exports) { return exports.__esModule ? exports.default : exports; }
@@ -91,7 +91,7 @@ module.exports = function cjs(options = {}) {
       }
 
       magicString.prepend(
-        `import {require as __çjs$require__, defaultExport as __çjs$default__} from "rollup-plugin-cjs-compat/helper";\n`
+        `import {require as __çjs$require__, defaultExport as __çjs$default__} from "rollup-plugin-cjs/helper";\n`
       );
 
       return {

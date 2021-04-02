@@ -1,5 +1,5 @@
 {
-  "name": "rollup-plugin-cjs-compat",
+  "name": "rollup-plugin-cjs",
   "version": "0.0.1",
   "description": "Import CommonJS files",
   "main": "./index.js",
