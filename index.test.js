@@ -71,3 +71,36 @@ it("dynamic", async () => {
     named: "named",
   });
 });
+
+function virtual(options) {
+  return {
+    resolveId(source) {
+      if (source in options) return source;
+    },
+    load(source) {
+      return options[source];
+    },
+  };
+}
+
+it("virtual", async () => {
+  let chunk = await parse({
+    input: "entry.js",
+    plugins: [
+      virtual({
+        "entry.js": `import lib from "lib"; output({ default: lib });`,
+        lib: `module.exports = "default"`,
+      }),
+      cjs(),
+    ],
+  });
+  expect(format(chunk)).toMatchInlineSnapshot(`
+    let module = { exports: {} };
+    module.exports = "default";
+    var lib = module.exports;
+
+    output({ default: lib });
+
+  `);
+  expect(execute(chunk.code)).toStrictEqual({ default: "default" });
+});

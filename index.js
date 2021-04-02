@@ -37,7 +37,7 @@ async function guessImportType(source, importer) {
     cache[file] = value = guessType(code);
   } catch (e) {
     cache[file] = value = "unknown";
-    this.warn(e);
+    this.error(e);
   }
   return value;
 }
